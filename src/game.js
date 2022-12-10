@@ -11,14 +11,35 @@ class Game {
 
   start() {
     // TODO: loop. clear, draw, move, addObstacle, checkCollisions, clearObstacles
+    //this.initListeners()
+   
+
+    this.interval = setInterval(() =>{
+      this.clear()
+      this.draw()
+      this.move()
+      this.addObstacle()
+      this.checkCollisions()
+    }, 1000 / 60)
   }
+
+  //initListeners() {
+
 
   clearObstacles() {
     // TODO: filter only visible obstacles (call o.isVisible())
+    this.obstacles = this.obstacles.filter(o => o.isVisible())
   }
 
   addObstacle() {
     // TODO: add new Obstacle every 100 ticks
+   this.tick--
+
+   if (this.tick <=0) {
+    this.tick = 100 + Math.random()
+    this.obstacles.push(new Obstacle(this.ctx))
+   }
+    
   }
 
   clear() {
@@ -27,19 +48,37 @@ class Game {
 
   draw() {
     // TODO: draw everything
+    this.bg.draw();
+    this.helicopter.draw();
+    this.obstacles.forEach(o => o.draw())
   }
 
   move() {
     // TODO: move everything
+    this.bg.move();
+    this.helicopter.move();
+    this.obstacles.forEach(o => o.move())
   }
 
   checkCollisions() {
-    // TODO: check helicopter on floor?
-    // TODO: iterate obstacles. check colX and colY
+   // TODO: iterate obstacles. check colX and colY &&  TODO: check helicopter on floor?
+    const hl = this.helicopter;
+    const o = this.obstacles;
+    this.obstacles.forEach(o => {
+    const colX = (hl.x + hl.w) >= o.x && (o.x + o.w) >= hl.x;
+    const colY = (o.y + o.h) >= hl.y && o.y <= (hl.y + hl.h); 
+    if (colX && colY) {
+      this.gameOver()
+     }
+    })
+    if (this.helicopter.isFloor()){
+      this.gameOver()
+    }
   }
 
   onKeyEvent(event) {
     // TODO
+    this.helicopter.onKeyEvent(event)
   }
 
   gameOver() {
