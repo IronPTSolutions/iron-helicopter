@@ -4,10 +4,10 @@ const game = new Game(ctx)
 
 game.start()
 
-document.addEventListener('keydown', e => {
-  game.onKeyEvent(e)
+document.addEventListener('keydown', event => {
+  game.onKeyEvent(event)
 })
 
-document.addEventListener('keyup', e => {
-  game.onKeyEvent(e)
+document.addEventListener('keyup', event => {
+  game.onKeyEvent(event)
 })
