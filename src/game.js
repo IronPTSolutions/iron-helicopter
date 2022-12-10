@@ -11,6 +11,14 @@ class Game {
 
   start() {
     // TODO: loop. clear, draw, move, addObstacle, checkCollisions, clearObstacles
+    this.interval = setInterval(() => {
+      this.clear()
+      this.draw()
+      this.checkCollisions()
+      this.move()
+      this.addObstacle()
+      this.clearObstacles()  
+    }, 1000 / 60)
   }
 
   clearObstacles() {
@@ -27,10 +35,14 @@ class Game {
 
   draw() {
     // TODO: draw everything
+    this.bg.draw()
+    this.helicopter.draw()
   }
 
   move() {
     // TODO: move everything
+    this.bg.move()
+    this.helicopter.move()
   }
 
   checkCollisions() {
@@ -39,8 +51,15 @@ class Game {
   }
 
   onKeyEvent(event) {
-    // TODO
-  }
+      document.onkeydown = (event) => {
+        this.helicopter.onKeyDown(event.keyCode)
+      }
+  
+      document.onkeyup = (event) => {
+        this.helicopter.onKeyUp(event.keyCode)
+      }
+    }
+  
 
   gameOver() {
     clearInterval(this.intervalId)
