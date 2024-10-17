@@ -19,7 +19,7 @@ class Obstacle {
   }
 
   move() {
-    this.x += this.vx
+    this.x += this.vx;
   }
 
   isVisible() {
