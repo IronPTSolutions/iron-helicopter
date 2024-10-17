@@ -13,14 +13,26 @@ class Game {
     // TODO: loop. clear, draw, move, addObstacle
     this.interval = setInterval(() => { // repite la función interna 60 veces por segundo (1000 ms / 60 = 60 FPS)
       this.clear();   // Limpia el lienzo.
+
       this.draw();    // Dibuja el fondo, los enemigos y el jugador
+
       this.move();    // Mueve los objetos del juego (fondo, enemigos y jugador)
-      this.addObstacle();
+
+      tick++;
+
+      if (tick >= 300) {  // Si alcanza 300 (5 segundos), reinicia el contador y agrega un nuevo enemigo 
+        tick = 0;
+        this.addObstacle();
+      }
+
     }, 1000 / 60);
   }
 
   addObstacle() {
     // TODO: add new Obstacle every 100 ticks
+    const obstacle = new Obstacle(ctx);
+
+    this.obstacles.push(obstacle);
   }
 
   clear() {
@@ -41,28 +53,9 @@ class Game {
 
   onKeyEvent(event) {
     // TODO
-    switch (event) {
-      case UP: {
-          if (this.vy === 0) {
-              this.vy = -30;
-              this.vx = 0;
-          }
-          break;
-      }
-      case RIGHT: {
-          if (this.vx === 0) {
-              this.vx = 30;
-              this.vy = 0;
-          }
-          break;
-      }
-      case LEFT: {
-          if (this.vx === 0) {
-              this.vx = -30;
-              this.vy = 0;
-          }
-          break;
-      }
+    this.helicopter.onKeyEvent(event);
+    if (this.helicopter.isFloor()) {
+      alert ("GAME OVER");
     }
   }
 }

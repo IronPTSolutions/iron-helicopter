@@ -38,10 +38,14 @@ class Helicopter {
       this.y,
       this.w,
       this.h);
+
       this.tick++;
+
       if (this.tick > 10) {
         this.tick = 0;
+
         this.img.frameIndex++;
+
         if (this.img.frameIndex > 3) {
           this.img.frameIndex = 0;
         }
@@ -52,11 +56,12 @@ class Helicopter {
 
   isFloor() {
     // TODO: check if floor
+    return this.y + this.h >= this.ctx.canvas.height;
   }
 
   move() {
     // TODO: move
-    this.vy += this.g;  // En vy siempre afecta la gravedad
+    this.vy += this.g + this.ay;  // En vy siempre afecta la gravedad
     this.vx += this.ax;
 
     this.x += this.vx;
@@ -65,11 +70,33 @@ class Helicopter {
     if (this.y + this.h >= this.ctx.canvas.height) {
       this.vy = 0;
       this.y = this.ctx.canvas.height - this.h;
+      aler ("GAME OVER")
     }
   }
 
   onKeyEvent(event) {
     // TODO
+    switch(event.type) {
+      case 'keydown':
+        if (event.keyCode === UP) {
+          this.vy = -3; 
+        } 
+        else if (event.keyCode === RIGHT) {
+          this.vx = 3; 
+        }
+        else if (event.keyCode === LEFT) {
+          this.vx = -3; 
+        } 
+        break;
+  
+      case 'keyup':
+        if (event.keyCode === UP) {
+          this.vy = this.g; 
+        } else if (event.keyCode === RIGHT || event.keyCode === LEFT) {
+          this.vx = 0; // Detener el movimiento horizontal al soltar teclas de dirección
+        }
+        break;
+    }
   }
 
 }
