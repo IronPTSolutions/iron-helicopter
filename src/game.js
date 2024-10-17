@@ -10,11 +10,28 @@ class Game {
   }
 
   start() {
-    // TODO: loop. clear, draw, move, addObstacle
+    this.intervalId = setInterval(() => {
+      this.clear();
+
+      this.move();
+
+      this.draw();    
+
+      this.tick++;
+
+      if(this.tick >= 100) {
+        this.tick = 0;
+
+        this.addObstacle();
+      } 
+    },
+    1000 / 60);
   }
 
   addObstacle() {
-    // TODO: add new Obstacle every 100 ticks
+    const obstacle  = new Obstacle(this.ctx);
+
+    this.obstacles.push(obstacle);
   }
 
   clear() {
@@ -22,14 +39,24 @@ class Game {
   }
 
   draw() {
-    // TODO: draw everything
+    this.bg.draw();
+    this.helicopter.draw();
+
+    this.obstacles.forEach(o => o.draw());
   }
 
   move() {
-    // TODO: move everything
+    this.bg.move();
+
+    this.helicopter.move();
+
+    this.obstacles.forEach(o => o.move());
+
+    this.obstacles = this.obstacles.filter(o => o.isVisible());
+    
   }
 
   onKeyEvent(event) {
-    // TODO
+    this.helicopter.onKeyEvent(event);
   }
 }
