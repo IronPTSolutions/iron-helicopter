@@ -21,8 +21,6 @@ class Helicopter {
     this.img.src = "https://2.bp.blogspot.com/-P6ZbLE-rnFM/WPTQh65UtMI/AAAAAAAABF8/9iYl-cIUEtIhj2JDTixyqZNeBn183AdmQCLcB/s1600/helicopter-spritesheet.png";
     this.img.frames = 4;
     this.img.frameIndex = 0;
-
-    this.weapon = new Weapon(this);
   }
 
   draw() {
@@ -51,8 +49,6 @@ class Helicopter {
         this.img.frameIndex = 0;
       }
     }
-
-    this.weapon.draw();
   }
 
   isFloor() {
@@ -78,8 +74,6 @@ class Helicopter {
       case LEFT:
         this.vx -= 1;
         break;
-      //case SPACE:
-        //this.ctx.
     }
   }
 }
