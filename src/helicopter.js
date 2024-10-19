@@ -70,14 +70,31 @@ class Helicopter {
     if (this.y + this.h >= this.ctx.canvas.height) {
       this.vy = 0;
       this.y = this.ctx.canvas.height - this.h;
-      aler ("GAME OVER")
     }
+
+    if (this.isFloor()) {
+      this.vy = 0;
+    }
+
+    this.weapon.move();
+  }
+
+  checkCollision(arrayOfObstacles) {
+    for (let i = 0; i < arrayOfObstacles.length; i++) {
+      const obstacle = arrayOfObstacles[i];
+      if ((this.x < obstacle.x + obstacle.w && this.x + this.y > obstacle.x) && (this.y < obstacle.y + obstacle.h && this.y + this.h > obstacle.y)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   onKeyEvent(event) {
     // TODO
     switch(event.type) {
+
       case 'keydown':
+
         if (event.keyCode === UP) {
           this.vy = -3; 
         } 
@@ -87,15 +104,25 @@ class Helicopter {
         else if (event.keyCode === LEFT) {
           this.vx = -3; 
         } 
+        else if (event.keyCode === SPACE)  {
+          this.weapon.shoot();
+        }
         break;
   
       case 'keyup':
+
         if (event.keyCode === UP) {
           this.vy = this.g; 
-        } else if (event.keyCode === RIGHT || event.keyCode === LEFT) {
+        } 
+        else if (event.keyCode === RIGHT || event.keyCode === LEFT) {
           this.vx = 0; // Detener el movimiento horizontal al soltar teclas de dirección
         }
+        else if (event.keyCode === SPACE)  {
+          this.weapon.clearBullets();
+        }
+      
         break;
+
     }
   }
 
